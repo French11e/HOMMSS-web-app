@@ -1,9 +1,9 @@
 import React from "react";
-import product from "../components/Assets/floor_tiles.jpg";
-import wallt from "../components/Assets/wall_tiles.jpg";
-import sanitary from "../components/Assets/sanitary_ware.jpg";
-import granite from "../components/Assets/natural_granite.jpg";
-import sink from "../components/Assets/kitchen_sink.jpg";
+import product from "../Assets/floor_tiles.jpg";
+import wallt from "../Assets/wall_tiles.jpg";
+import sanitary from "../Assets/sanitary_ware.jpg";
+import granite from "../Assets/natural_granite.jpg";
+import sink from "../Assets/kitchen_sink.jpg";
 
 type Product = {
   id: number;

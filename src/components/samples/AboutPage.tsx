@@ -4,7 +4,7 @@ const AboutPage: React.FC = () => {
   return (
     <div className="container mx-auto p-6">
       <header className="text-center py-10">
-        <h1 className="text-4xl font-bold">About Us</h1>
+        <h1 className="text-4xl font-bold" id="aboutus">About Us</h1>
       </header>
 
       <section className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">

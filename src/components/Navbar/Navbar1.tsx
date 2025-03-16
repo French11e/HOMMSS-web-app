@@ -1,10 +1,31 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import logo from "../Assets/HOMMSS-LOGO.png";
+import logo from "../../Assets/HOMMSS-LOGO.png";
 
-const Navbar = () => {
-  const [menu, setMenu] = useState("shop");
+const navLinks = [
+  {
+    name: "Home",
+    redirectTo: "/"
+  },
+  {
+    name: "Products",
+    redirectTo: "/products"
+  },
+  {
+    name: "About Us",
+    redirectTo: "/about"
+  },
+
+  {
+    name: "Contact",
+    redirectTo: "/contact"
+  }
+]
+
+const Navbar1 = () => {
+
+  const [menu, setMenu] = useState("home");
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   const toggleNavbar = () => {
@@ -22,58 +43,23 @@ const Navbar = () => {
             </span>
           </div>
           <ul className="hidden lg:flex ml-auto space-x-12 items-center text-white text-lg font-medium">
-            <li
-              onClick={() => {
-                setMenu("home");
-              }}
-              className="cursor-pointer"
-            >
-              <Link to="/">Home</Link>
-              {menu === "home" ? (
-                <hr className="border-none w-4/5 h-[3px] rounded-lg bg-[#5BC8F4]" />
-              ) : (
-                <></>
-              )}
-            </li>
-            <li
-              onClick={() => {
-                setMenu("products");
-              }}
-              className="cursor-pointer"
-            >
-              Products
-              {menu === "products" ? (
-                <hr className="border-none w-4/5 h-[3px] rounded-lg bg-[#5BC8F4]" />
-              ) : (
-                <></>
-              )}
-            </li>
-            <li
-              onClick={() => {
-                setMenu("about");
-              }}
-              className="cursor-pointer"
-            >
-              About Us
-              {menu === "about" ? (
-                <hr className="border-none w-4/5 h-[3px] rounded-lg bg-[#5BC8F4]" />
-              ) : (
-                <></>
-              )}
-            </li>
-            <li
-              onClick={() => {
-                setMenu("contact");
-              }}
-              className="cursor-pointer"
-            >
-              Contact
-              {menu === "contact" ? (
-                <hr className="border-none w-4/5 h-[3px] rounded-lg bg-[#5BC8F4]" />
-              ) : (
-                <></>
-              )}
-            </li>
+            {
+              navLinks.map((links, index) => {
+                return <li
+                  onClick={() => {
+                    setMenu(links.name.toLowerCase())
+                  }}> 
+                  <NavLink to={links.redirectTo} className={(isActive) => isActive ? "active" : "" } key={index}> {links.name} </NavLink>
+
+
+                  {menu === links.name.toLowerCase() ? (
+                    <hr className="border-none w-4/5 h-[3px] rounded-lg bg-[#5BC8F4]" />
+                  ) : (
+                    <></>
+                  )}
+                </li>
+              })
+            }
           </ul>
           <div className="hidden lg:flex ml-auto space-x-3 items-center">
             <a
@@ -126,4 +112,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Navbar1;

@@ -5,13 +5,13 @@ import { navItems } from "../constants";
 
 const NavBar = () => {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<string>("");
+  const [activeTab, setActiveTab] = useState("");
 
   const toggleNavbar = () => {
     setMobileDrawerOpen(!mobileDrawerOpen);
   };
 
-  const handleTabClick = (label: string) => {
+  const handleTabClick = (label) => {
     setActiveTab(label);
   };
 

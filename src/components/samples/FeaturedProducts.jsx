@@ -5,20 +5,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-// Product type
-type Product = {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-  description: string;
-};
-
-type FeaturedProductsProps = {
-  products: Product[];
-};
-
-const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ products }) => {
+const FeaturedProducts = ({ products }) => {
   return (
     <section className="mt-10">
       <h2 className="text-3xl font-bold mb-6 text-center">

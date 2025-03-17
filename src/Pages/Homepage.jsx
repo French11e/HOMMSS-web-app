@@ -5,14 +5,7 @@ import sanitary from "../Assets/sanitary_ware.jpg";
 import granite from "../Assets/natural_granite.jpg";
 import sink from "../Assets/kitchen_sink.jpg";
 
-type Product = {
-  id: number;
-  name: string;
-  image: string;
-  description: string;
-};
-
-const products: Product[] = [
+const products = [
   {
     id: 1,
     name: "Floor Tiles",
@@ -50,7 +43,7 @@ const products: Product[] = [
   },
 ];
 
-const HomePage: React.FC = () => {
+const HomePage = () => {
   return (
     <div className="container mx-auto p-4">
       <header

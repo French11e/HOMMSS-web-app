@@ -1,15 +1,16 @@
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import Navbar1 from "./components/Navbar/Navbar1";
+import Navbar from "./components/Navbar/Navbar";
 import Shop from "./Pages/Shop";
 import Homepage from "./Pages/Homepage";
-import AboutPage from "./components/samples/AboutPage";
+import About from "./Pages/About";
+import Footer from "./components/Navbar/Footer";
 
 function App() {
   return (
     <>
-      <Navbar1 />
+      <Navbar />
       <Outlet />
-      <AboutPage />
+      <Footer />
     </>
   );
 }

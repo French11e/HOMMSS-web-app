@@ -4,6 +4,7 @@ import wallt from "../Assets/wall_tiles.jpg";
 import sanitary from "../Assets/sanitary_ware.jpg";
 import granite from "../Assets/natural_granite.jpg";
 import sink from "../Assets/kitchen_sink.jpg";
+import bgImage from "../Assets/bg.png"; // Adjust path based on file location
 
 const products = [
   {
@@ -47,11 +48,12 @@ const HomePage = () => {
   return (
     <div className="container mx-auto p-4">
       <header
-        className="text-center py-10 bg-gradient-to-r from-blue-500 to-[#0842c1] text-white rounded-2xl animate-pulse"
+        className="text-center py-10 text-white rounded-2xl animate-pulse relative"
         style={{
-          backgroundImage:
-            "linear-gradient(135deg, #0842c1 25%, #1e77da 50%, #0842c1 75%)",
-          backgroundSize: "400% 400%",
+          backgroundImage: `url(${bgImage}), linear-gradient(135deg, #0842c1 25%, #1e77da 50%, #0842c1 75%)`,
+          backgroundSize: "cover, 400% 400%",
+          backgroundPosition: "center",
+          backgroundBlendMode: "overlay",
           animation: "gradientAnimation 6s ease infinite",
         }}
       >

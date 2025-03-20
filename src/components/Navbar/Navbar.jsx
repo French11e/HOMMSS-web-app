@@ -1,32 +1,112 @@
-import "../Navbar/Navbar.css";
-import logo from "../Assets/HOMMSS-LOGO.png";
-import cart from "../Assets/cart_icon.png";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
+import logo from "../../Assets/HOMMSS-LOGO.png";
 
-const Navbar = () => {
+const navLinks = [
+  { name: "Home", redirectTo: "/" },
+  { name: "Products", redirectTo: "/products" },
+  { name: "About Us", redirectTo: "/about" },
+  { name: "Contact", redirectTo: "/contact" },
+];
+
+export default function Navbar() {
+  const location = useLocation(); // Get the current path
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+
+  const toggleNavbar = () => setMobileDrawerOpen(!mobileDrawerOpen);
+
   return (
-    <div className="navbar">
-      <div className="nav-logo">
-        <img className="w-15" src={logo} alt="logo" />
-        <span>HOMMSS</span>
-      </div>
-      <ul className="nav-menu">
-        <li>
-          Home
-          <hr />
-        </li>
-        <li>Products</li>
-        <li>About Us</li>
-        <li>Contact</li>
-      </ul>
-      <div className="flex items-center space-x-8 nav-login-cart">
-        <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-          Login
-        </button>
-        <img src={cart} alt="" className="w-8 h-8" />
-        <div className="nav-cart-count">0</div>
-      </div>
-    </div>
-  );
-};
+    <nav className="sticky top-0 z-50 py-3 backdrop-blur-lg border-b border-neutral-700/80">
+      <div className="container px-4 mx-auto relative text-sm">
+        <div className="flex justify-between items-center">
+          {/* Logo */}
+          <div className="flex items-center">
+            <img className="h-15 mr-2" src={logo} alt="logo" />
+            <span className="text-xl tracking-tight font-extrabold text-white">
+              HOMMSS
+            </span>
+          </div>
 
-export default Navbar;
+          {/* Desktop Navigation */}
+          <ul className="hidden lg:flex ml-auto space-x-12 items-center text-white text-lg font-medium">
+            {navLinks.map((link, index) => (
+              <li key={index}>
+                <NavLink
+                  to={link.redirectTo}
+                  className={({ isActive }) =>
+                    isActive ? "text-blue-400" : ""
+                  }
+                >
+                  {link.name}
+                </NavLink>
+                {location.pathname === link.redirectTo && (
+                  <hr className="border-none w-4/5 h-[3px] rounded-lg bg-[#5BC8F4]" />
+                )}
+              </li>
+            ))}
+          </ul>
+
+          {/* Auth Buttons */}
+          <div className="hidden lg:flex ml-auto space-x-3 items-center">
+            <a
+              href="#"
+              className="py-2 px-3 border rounded-md text-white border-[#5BC8F4]"
+            >
+              Sign In
+            </a>
+            <a
+              href="#"
+              className="bg-gradient-to-r from-[#0842c1] to-[#1e77da] py-2 px-3 rounded-md text-white"
+            >
+              Create an Account
+            </a>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="lg:hidden flex ml-auto">
+            <button onClick={toggleNavbar}>
+              {mobileDrawerOpen ? <X /> : <Menu />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Navigation */}
+        {mobileDrawerOpen && (
+          <div className="lg:hidden mt-4">
+            <ul className="flex flex-col space-y-4 text-white text-lg font-medium">
+              {navLinks.map((link, index) => (
+                <li key={index} className="cursor-pointer">
+                  <NavLink
+                    to={link.redirectTo}
+                    className={({ isActive }) =>
+                      isActive ? "text-blue-400" : ""
+                    }
+                  >
+                    {link.name}
+                  </NavLink>
+                </li>
+              ))}
+              <li>
+                <a
+                  href="#"
+                  className="py-2 px-3 border rounded-md text-[#0439BB] border-[#5BC8F4]"
+                >
+                  Sign In
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="bg-gradient-to-r from-[#0842c1] to-[#1e77da] py-2 px-3 rounded-md text-white"
+                >
+                  Create an Account
+                </a>
+              </li>
+            </ul>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+}

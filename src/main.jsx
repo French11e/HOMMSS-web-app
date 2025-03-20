@@ -6,7 +6,7 @@ import App from "./App.jsx";
 import Shop from "./Pages/Shop.jsx";
 import Product from "./Pages/Product.jsx";
 import PageNotFount from "./Pages/PageNotFount.jsx";
-import { About } from "./Pages/About.jsx";
+import About from "./Pages/About.jsx";
 import { SingleProduct } from "./Pages/SingleProduct.jsx";
 import HomePage from "./Pages/Homepage.jsx";
 

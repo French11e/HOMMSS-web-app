@@ -48,19 +48,17 @@ const HomePage = () => {
   return (
     <div className="container mx-auto p-4">
       <header
-        className="text-center py-10 text-white rounded-2xl animate-pulse relative"
+        className="text-center py-10 text-white rounded-2xl"
         style={{
-          backgroundImage: `url(${bgImage}), linear-gradient(135deg, #0842c1 25%, #1e77da 50%, #0842c1 75%)`,
-          backgroundSize: "cover, 400% 400%",
+          backgroundImage: `url(${bgImage})`,
+          backgroundSize: "cover",
           backgroundPosition: "center",
-          backgroundBlendMode: "overlay",
-          animation: "gradientAnimation 6s ease infinite",
         }}
       >
-        <h1 className="text-4xl font-bold drop-shadow-lg">
+        <h1 className="text-4xl font-bold drop-shadow-xl">
           Welcome to HOMMSS!
         </h1>
-        <p className="mt-2 text-lg drop-shadow-md">
+        <p className="mt-2 text-lg drop-shadow-2xl">
           Where Comfort Meets Style ✨
         </p>
       </header>
@@ -71,7 +69,7 @@ const HomePage = () => {
           {products.map((product) => (
             <div
               key={product.id}
-              className="bg-[#1B1622] rounded-2xl shadow-lg p-4 hover:shadow-2xl hover:scale-105 transition-all duration-300 flex flex-col overflow-hidden"
+              className="dark:bg-gray-900 rounded-2xl shadow-lg p-4 hover:shadow-2xl hover:scale-105 transition-all duration-300 flex flex-col overflow-hidden"
             >
               <img
                 src={product.image}

@@ -2,8 +2,9 @@ import { NavLink, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import logo from "../../Assets/HOMMSS-LOGO.png";
-import SignInModal from "../../Pages/SignInModal";
-import RegisterModal from "../../Pages/RegisterModal";
+import SignInModal from "../../Pages/Auth/SignInModal";
+import RegisterModal from "../../Pages/Auth/RegisterModal";
+import ForgotPassword from "../../Pages/Auth/ForgotPassword";
 
 const navLinks = [
   { name: "Home", redirectTo: "/" },
@@ -15,11 +16,14 @@ const navLinks = [
 export default function Navbar() {
   const location = useLocation();
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
-  const [activeModal, setActiveModal] = useState(null); // 'signIn' | 'register' | null
+  const [activeModal, setActiveModal] = useState(null);
 
   const toggleNavbar = () => setMobileDrawerOpen(!mobileDrawerOpen);
-  const openSignIn = () => setActiveModal("signIn");
-  const openRegister = () => setActiveModal("register");
+  const closeNavbar = () => setMobileDrawerOpen(false); // Close menu when navigating or opening modal
+  const openModal = (modal) => {
+    setActiveModal(modal);
+    closeNavbar(); // Ensures mobile menu closes
+  };
   const closeModal = () => setActiveModal(null);
 
   return (
@@ -42,29 +46,28 @@ export default function Navbar() {
                   <NavLink
                     to={link.redirectTo}
                     className={({ isActive }) =>
-                      isActive ? "text-blue-400" : ""
+                      isActive
+                        ? "text-blue-400 underline"
+                        : "hover:text-blue-300 transition"
                     }
                   >
                     {link.name}
                   </NavLink>
-                  {location.pathname === link.redirectTo && (
-                    <hr className="border-none w-4/5 h-[3px] rounded-lg bg-[#5BC8F4]" />
-                  )}
                 </li>
               ))}
             </ul>
 
-            {/* Auth Buttons */}
+            {/* Auth Buttons (Desktop) */}
             <div className="hidden lg:flex ml-auto space-x-3 items-center">
               <button
-                onClick={openSignIn}
-                className="py-2 px-3 border rounded-md text-white border-[#5BC8F4]"
+                onClick={() => openModal("signIn")}
+                className="py-2 px-3 border rounded-md text-white border-[#5BC8F4] hover:bg-[#5BC8F4] hover:text-black transition duration-300"
               >
                 Sign In
               </button>
               <button
-                onClick={openRegister}
-                className="bg-gradient-to-r from-[#0842c1] to-[#1e77da] py-2 px-3 rounded-md text-white"
+                onClick={() => openModal("register")}
+                className="bg-gradient-to-r from-[#0842c1] to-[#1e77da] py-2 px-3 rounded-md text-white hover:brightness-110 transition duration-300"
               >
                 Create an Account
               </button>
@@ -72,56 +75,74 @@ export default function Navbar() {
 
             {/* Mobile Menu Button */}
             <div className="lg:hidden flex ml-auto">
-              <button onClick={toggleNavbar}>
-                {mobileDrawerOpen ? <X /> : <Menu />}
+              <button onClick={toggleNavbar} className="text-white">
+                {mobileDrawerOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
             </div>
           </div>
 
           {/* Mobile Navigation */}
-          {mobileDrawerOpen && (
-            <div className="lg:hidden mt-4">
-              <ul className="flex flex-col space-y-4 text-white text-lg font-medium">
-                {navLinks.map((link, index) => (
-                  <li key={index} className="cursor-pointer">
-                    <NavLink
-                      to={link.redirectTo}
-                      className={({ isActive }) =>
-                        isActive ? "text-blue-400" : ""
-                      }
-                    >
-                      {link.name}
-                    </NavLink>
-                  </li>
-                ))}
-                <li>
-                  <button
-                    onClick={openSignIn}
-                    className="py-2 px-3 border rounded-md text-[#0439BB] border-[#5BC8F4]"
+          <div
+            className={`lg:hidden fixed top-0 right-0 h-full w-64 bg-black p-5 transition-transform duration-300 ease-in-out ${
+              mobileDrawerOpen ? "translate-x-0" : "translate-x-full"
+            }`}
+          >
+            <button onClick={toggleNavbar} className="text-white mb-4">
+              <X size={24} />
+            </button>
+            <ul className="flex flex-col space-y-4 text-white text-lg font-medium">
+              {navLinks.map((link, index) => (
+                <li key={index}>
+                  <NavLink
+                    to={link.redirectTo}
+                    onClick={closeNavbar} // Close mobile menu on click
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-blue-400 underline"
+                        : "hover:text-blue-300 transition"
+                    }
                   >
-                    Sign In
-                  </button>
+                    {link.name}
+                  </NavLink>
                 </li>
-                <li>
-                  <button
-                    onClick={openRegister}
-                    className="bg-gradient-to-r from-[#0842c1] to-[#1e77da] py-2 px-3 rounded-md text-white"
-                  >
-                    Create an Account
-                  </button>
-                </li>
-              </ul>
-            </div>
-          )}
+              ))}
+              <li>
+                <button
+                  onClick={() => openModal("signIn")}
+                  className="w-full py-2 px-3 border rounded-md text-white border-[#5BC8F4] hover:bg-[#5BC8F4] hover:text-black transition duration-300"
+                >
+                  Sign In
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => openModal("register")}
+                  className="w-full bg-gradient-to-r from-[#0842c1] to-[#1e77da] py-2 px-3 rounded-md text-white hover:opacity-80 transition duration-300"
+                >
+                  Create an Account
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
       </nav>
 
       {/* Modals */}
       {activeModal === "signIn" && (
-        <SignInModal onClose={closeModal} onSwitch={openRegister} />
+        <SignInModal
+          onClose={closeModal}
+          onSwitch={() => openModal("register")}
+          onForgotPassword={() => openModal("forgotPassword")}
+        />
       )}
       {activeModal === "register" && (
-        <RegisterModal onClose={closeModal} onSwitch={openSignIn} />
+        <RegisterModal
+          onClose={closeModal}
+          onSwitch={() => openModal("signIn")}
+        />
+      )}
+      {activeModal === "forgotPassword" && (
+        <ForgotPassword onClose={closeModal} />
       )}
     </>
   );

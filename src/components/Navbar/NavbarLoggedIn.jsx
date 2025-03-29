@@ -1,10 +1,7 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ShoppingCart, User } from "lucide-react";
 import { useState } from "react";
 import logo from "../../Assets/HOMMSS-LOGO.png";
-import SignInModal from "../../Pages/Auth/SignInModal";
-import RegisterModal from "../../Pages/Auth/RegisterModal";
-import ForgotPassword from "../../Pages/Auth/ForgotPassword";
 
 const navLinks = [
   { name: "Home", redirectTo: "/" },
@@ -13,16 +10,15 @@ const navLinks = [
   { name: "Contact", redirectTo: "/contact" },
 ];
 
-export default function Navbar() {
+export default function NavbarLoggedIn() {
   const location = useLocation();
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
-  const [activeModal, setActiveModal] = useState(null);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
   const toggleNavbar = () => setMobileDrawerOpen(!mobileDrawerOpen);
-  const openSignIn = () => setActiveModal("signIn");
-  const openRegister = () => setActiveModal("register");
-  const openForgotPassword = () => setActiveModal("forgotPassword");
-  const closeModal = () => setActiveModal(null);
+  const toggleProfileDropdown = () =>
+    setProfileDropdownOpen(!profileDropdownOpen);
+  const closeNavbar = () => setMobileDrawerOpen(false);
 
   return (
     <>
@@ -56,20 +52,34 @@ export default function Navbar() {
               ))}
             </ul>
 
-            {/* Auth Buttons */}
-            <div className="hidden lg:flex ml-auto space-x-3 items-center">
-              <button
-                onClick={openSignIn}
-                className="py-2 px-3 border rounded-md text-white border-[#5BC8F4] transition duration-300 hover:bg-[#5BC8F4] hover:text-black"
-              >
-                Sign In
-              </button>
-              <button
-                onClick={openRegister}
-                className="bg-gradient-to-r from-[#0842c1] to-[#1e77da] py-2 px-3 rounded-md text-white transition duration-300 hover:opacity-80"
-              >
-                Create an Account
-              </button>
+            {/* Icons for Logged-in User */}
+            <div className="hidden lg:flex ml-auto space-x-6 items-center">
+              {/* Cart Icon */}
+              <NavLink to="/cart" className="text-white hover:text-blue-400">
+                <ShoppingCart size={24} />
+              </NavLink>
+
+              {/* Profile Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={toggleProfileDropdown}
+                  className="flex items-center text-white hover:text-blue-400"
+                >
+                  <User size={24} />
+                </button>
+                {profileDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-40 bg-black border border-neutral-700 rounded-lg shadow-lg">
+                    <ul className="text-white text-sm">
+                      <li className="px-4 py-2 hover:bg-neutral-800">
+                        <NavLink to="/profile">Profile</NavLink>
+                      </li>
+                      <li className="px-4 py-2 hover:bg-neutral-800">
+                        <button>Logout</button>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Mobile Menu Button */}
@@ -96,20 +106,30 @@ export default function Navbar() {
                     </NavLink>
                   </li>
                 ))}
+                {/* Cart Icon */}
                 <li>
-                  <button
-                    onClick={openSignIn}
-                    className="py-2 px-3 border rounded-md text-[#0439BB] border-[#5BC8F4]"
+                  <NavLink
+                    to="/cart"
+                    className="flex items-center text-white hover:text-blue-400"
                   >
-                    Sign In
-                  </button>
+                    <ShoppingCart size={24} className="mr-2" />
+                    Cart
+                  </NavLink>
                 </li>
+                {/* Profile Button */}
                 <li>
-                  <button
-                    onClick={openRegister}
-                    className="bg-gradient-to-r from-[#0842c1] to-[#1e77da] py-2 px-3 rounded-md text-white"
+                  <NavLink
+                    to="/profile"
+                    className="flex items-center text-white hover:text-blue-400"
                   >
-                    Create an Account
+                    <User size={24} className="mr-2" />
+                    Profile
+                  </NavLink>
+                </li>
+                {/* Logout Button */}
+                <li>
+                  <button className="text-white hover:text-blue-400">
+                    Logout
                   </button>
                 </li>
               </ul>
@@ -117,21 +137,6 @@ export default function Navbar() {
           )}
         </div>
       </nav>
-
-      {/* Modals */}
-      {activeModal === "signIn" && (
-        <SignInModal
-          onClose={closeModal}
-          onSwitch={openRegister}
-          onForgotPassword={openForgotPassword}
-        />
-      )}
-      {activeModal === "register" && (
-        <RegisterModal onClose={closeModal} onSwitch={openSignIn} />
-      )}
-      {activeModal === "forgotPassword" && (
-        <ForgotPassword onClose={closeModal} />
-      )}
     </>
   );
 }
